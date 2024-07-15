@@ -14,9 +14,10 @@ java -jar bundletool-all-1.17.0.jar build-apks --bundle=my_app.aab --output=my_a
 ```
 
 Download via:
+
 ![QR Code for APK](download_qr.jpg)
 
-First launch you should see an incorrect text. Second launch it should update to the correct patched version. 
+First launch you should see an incorrect text. Second launch it should update to the correct patched version. (After swiping away from recents)
 
 ## Local development
 
