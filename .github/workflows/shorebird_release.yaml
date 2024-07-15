@@ -1,0 +1,25 @@
+name: Shorebird Release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  shorebird_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: 🐦 Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+      - name: Create release
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+          SIGNING_KEYSTORE_BASE64: ${{ secrets.SIGNING_KEYSTORE_BASE64 }}
+          SIGNING_PROPERTIES: ${{ secrets.SIGNING_PROPERTIES }}
+        run: |
+          echo "$SIGNING_KEYSTORE_BASE64" | base64 --decode > android/app/experiment.jks
+          echo "$SIGNING_PROPERTIES" > android/signing.properties
+          flutter_version=`cat .fvmrc | grep -o "flutter.*" | grep -o "[0-9.]*"`
+          echo y | shorebird release android --flutter-version $flutter_version -- --dart-define-from-file=.env/app.json --obfuscate --split-debug-info=build/outputs/symbols

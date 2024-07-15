@@ -1,0 +1,22 @@
+name: Shorebird Patch
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_to_patch:
+        description: 'Version to patch: format: 1.0.0+7'
+        type: string
+jobs:
+  shorebird_patch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: 🐦 Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+      - name: Create Patch
+        env:
+          SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+        run: |
+          echo y | shorebird patch --platforms=android --release-version=${{ github.event.inputs.version_to_patch }}
