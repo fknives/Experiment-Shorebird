@@ -59,7 +59,7 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file(signingProperties.getProperty("keystore_path"))
+            storeFile file(signingProperties.getProperty("keystore_path", "debug.keystore"))
             keyAlias signingProperties.getProperty("key_alias")
             keyPassword signingProperties.getProperty("key_password")
             storePassword signingProperties.getProperty("store_password")

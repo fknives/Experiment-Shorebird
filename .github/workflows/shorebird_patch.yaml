@@ -18,5 +18,9 @@ jobs:
       - name: Create Patch
         env:
           SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+          SIGNING_KEYSTORE_BASE64: ${{ secrets.SIGNING_KEYSTORE_BASE64 }}
+          SIGNING_PROPERTIES: ${{ secrets.SIGNING_PROPERTIES }}
         run: |
+          echo "$SIGNING_KEYSTORE_BASE64" | base64 --decode > android/app/experiment.jks
+          echo "$SIGNING_PROPERTIES" > android/signing.properties
           echo y | shorebird patch --platforms=android --release-version=${{ github.event.inputs.version_to_patch }}
